@@ -7,12 +7,13 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		3DB28FF81E279A4600B21766 /* locationTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB28FF71E279A4600B21766 /* locationTests.swift */; };
+		3DB28FFA1E279B7700B21766 /* Location.swift in Sources */ = {isa = PBXBuildFile; fileRef = 3DB28FF91E279B7700B21766 /* Location.swift */; };
 		DB37F8E41E2798A400BE6292 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB37F8E31E2798A400BE6292 /* AppDelegate.swift */; };
 		DB37F8E61E2798A400BE6292 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB37F8E51E2798A400BE6292 /* ViewController.swift */; };
 		DB37F8E91E2798A400BE6292 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB37F8E71E2798A400BE6292 /* Main.storyboard */; };
 		DB37F8EB1E2798A400BE6292 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB37F8EA1E2798A400BE6292 /* Assets.xcassets */; };
 		DB37F8EE1E2798A400BE6292 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB37F8EC1E2798A400BE6292 /* LaunchScreen.storyboard */; };
-		DB37F8F91E2798A400BE6292 /* cloudKitTrackerTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB37F8F81E2798A400BE6292 /* cloudKitTrackerTests.swift */; };
 		DB37F9041E2798A400BE6292 /* cloudKitTrackerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB37F9031E2798A400BE6292 /* cloudKitTrackerUITests.swift */; };
 /* End PBXBuildFile section */
 
@@ -34,6 +35,8 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		3DB28FF71E279A4600B21766 /* locationTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = locationTests.swift; sourceTree = "<group>"; };
+		3DB28FF91E279B7700B21766 /* Location.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = Location.swift; sourceTree = "<group>"; };
 		DB37F8E01E2798A400BE6292 /* cloudKitTracker.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = cloudKitTracker.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB37F8E31E2798A400BE6292 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
 		DB37F8E51E2798A400BE6292 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
@@ -42,7 +45,6 @@
 		DB37F8ED1E2798A400BE6292 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		DB37F8EF1E2798A400BE6292 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DB37F8F41E2798A400BE6292 /* cloudKitTrackerTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = cloudKitTrackerTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
-		DB37F8F81E2798A400BE6292 /* cloudKitTrackerTests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cloudKitTrackerTests.swift; sourceTree = "<group>"; };
 		DB37F8FA1E2798A400BE6292 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		DB37F8FF1E2798A400BE6292 /* cloudKitTrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = cloudKitTrackerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB37F9031E2798A400BE6292 /* cloudKitTrackerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cloudKitTrackerUITests.swift; sourceTree = "<group>"; };
@@ -103,6 +105,7 @@
 				DB37F8EA1E2798A400BE6292 /* Assets.xcassets */,
 				DB37F8EC1E2798A400BE6292 /* LaunchScreen.storyboard */,
 				DB37F8EF1E2798A400BE6292 /* Info.plist */,
+				3DB28FF91E279B7700B21766 /* Location.swift */,
 			);
 			path = cloudKitTracker;
 			sourceTree = "<group>";
@@ -110,7 +113,7 @@
 		DB37F8F71E2798A400BE6292 /* cloudKitTrackerTests */ = {
 			isa = PBXGroup;
 			children = (
-				DB37F8F81E2798A400BE6292 /* cloudKitTrackerTests.swift */,
+				3DB28FF71E279A4600B21766 /* locationTests.swift */,
 				DB37F8FA1E2798A400BE6292 /* Info.plist */,
 			);
 			path = cloudKitTrackerTests;
@@ -193,10 +196,12 @@
 				TargetAttributes = {
 					DB37F8DF1E2798A400BE6292 = {
 						CreatedOnToolsVersion = 8.2.1;
+						DevelopmentTeam = 9LQ56L9MSQ;
 						ProvisioningStyle = Automatic;
 					};
 					DB37F8F31E2798A400BE6292 = {
 						CreatedOnToolsVersion = 8.2.1;
+						LastSwiftMigration = 0820;
 						ProvisioningStyle = Automatic;
 						TestTargetID = DB37F8DF1E2798A400BE6292;
 					};
@@ -260,6 +265,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				DB37F8E61E2798A400BE6292 /* ViewController.swift in Sources */,
+				3DB28FFA1E279B7700B21766 /* Location.swift in Sources */,
 				DB37F8E41E2798A400BE6292 /* AppDelegate.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -268,7 +274,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				DB37F8F91E2798A400BE6292 /* cloudKitTrackerTests.swift in Sources */,
+				3DB28FF81E279A4600B21766 /* locationTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -412,7 +418,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 9LQ56L9MSQ;
 				INFOPLIST_FILE = cloudKitTracker/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Erika.cloudKitTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -424,7 +432,9 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				DEVELOPMENT_TEAM = 9LQ56L9MSQ;
 				INFOPLIST_FILE = cloudKitTracker/Info.plist;
+				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Erika.cloudKitTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
@@ -437,10 +447,12 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = cloudKitTrackerTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Erika.cloudKitTrackerTests;
 				PRODUCT_NAME = "$(TARGET_NAME)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 3.0;
 				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/cloudKitTracker.app/cloudKitTracker";
 			};
@@ -451,6 +463,7 @@
 			buildSettings = {
 				ALWAYS_EMBED_SWIFT_STANDARD_LIBRARIES = YES;
 				BUNDLE_LOADER = "$(TEST_HOST)";
+				CLANG_ENABLE_MODULES = YES;
 				INFOPLIST_FILE = cloudKitTrackerTests/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks @loader_path/Frameworks";
 				PRODUCT_BUNDLE_IDENTIFIER = com.Erika.cloudKitTrackerTests;
@@ -505,6 +518,7 @@
 				DB37F90A1E2798A400BE6292 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DB37F90B1E2798A400BE6292 /* Build configuration list for PBXNativeTarget "cloudKitTrackerTests" */ = {
 			isa = XCConfigurationList;
@@ -513,6 +527,7 @@
 				DB37F90D1E2798A400BE6292 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		DB37F90E1E2798A400BE6292 /* Build configuration list for PBXNativeTarget "cloudKitTrackerUITests" */ = {
 			isa = XCConfigurationList;
@@ -521,6 +536,7 @@
 				DB37F9101E2798A400BE6292 /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
