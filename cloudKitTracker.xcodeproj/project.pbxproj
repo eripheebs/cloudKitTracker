@@ -15,6 +15,7 @@
 		DB37F8EB1E2798A400BE6292 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = DB37F8EA1E2798A400BE6292 /* Assets.xcassets */; };
 		DB37F8EE1E2798A400BE6292 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = DB37F8EC1E2798A400BE6292 /* LaunchScreen.storyboard */; };
 		DB37F9041E2798A400BE6292 /* cloudKitTrackerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB37F9031E2798A400BE6292 /* cloudKitTrackerUITests.swift */; };
+		DB840A1E1E27D2B7009D5513 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB840A1D1E27D2B7009D5513 /* CloudKit.framework */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -49,6 +50,8 @@
 		DB37F8FF1E2798A400BE6292 /* cloudKitTrackerUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = cloudKitTrackerUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		DB37F9031E2798A400BE6292 /* cloudKitTrackerUITests.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = cloudKitTrackerUITests.swift; sourceTree = "<group>"; };
 		DB37F9051E2798A400BE6292 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		DB37F9111E27C57900BE6292 /* cloudKitTracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = cloudKitTracker.entitlements; sourceTree = "<group>"; };
+		DB840A1D1E27D2B7009D5513 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -56,6 +59,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DB840A1E1E27D2B7009D5513 /* CloudKit.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -83,6 +87,7 @@
 				DB37F8F71E2798A400BE6292 /* cloudKitTrackerTests */,
 				DB37F9021E2798A400BE6292 /* cloudKitTrackerUITests */,
 				DB37F8E11E2798A400BE6292 /* Products */,
+				DB840A181E27CD26009D5513 /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -99,6 +104,7 @@
 		DB37F8E21E2798A400BE6292 /* cloudKitTracker */ = {
 			isa = PBXGroup;
 			children = (
+				DB37F9111E27C57900BE6292 /* cloudKitTracker.entitlements */,
 				DB37F8E31E2798A400BE6292 /* AppDelegate.swift */,
 				DB37F8E51E2798A400BE6292 /* ViewController.swift */,
 				DB37F8E71E2798A400BE6292 /* Main.storyboard */,
@@ -126,6 +132,14 @@
 				DB37F9051E2798A400BE6292 /* Info.plist */,
 			);
 			path = cloudKitTrackerUITests;
+			sourceTree = "<group>";
+		};
+		DB840A181E27CD26009D5513 /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				DB840A1D1E27D2B7009D5513 /* CloudKit.framework */,
+			);
+			name = Frameworks;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -196,8 +210,16 @@
 				TargetAttributes = {
 					DB37F8DF1E2798A400BE6292 = {
 						CreatedOnToolsVersion = 8.2.1;
-						DevelopmentTeam = 9LQ56L9MSQ;
+						DevelopmentTeam = 8HTSCWWX39;
 						ProvisioningStyle = Automatic;
+						SystemCapabilities = {
+							com.apple.Push = {
+								enabled = 1;
+							};
+							com.apple.iCloud = {
+								enabled = 1;
+							};
+						};
 					};
 					DB37F8F31E2798A400BE6292 = {
 						CreatedOnToolsVersion = 8.2.1;
@@ -418,11 +440,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 9LQ56L9MSQ;
+				CODE_SIGN_ENTITLEMENTS = cloudKitTracker/cloudKitTracker.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 8HTSCWWX39;
 				INFOPLIST_FILE = cloudKitTracker/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Erika.cloudKitTracker;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ErikaAndMattsDevTeam.cloudKitTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
@@ -432,11 +456,13 @@
 			isa = XCBuildConfiguration;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
-				DEVELOPMENT_TEAM = 9LQ56L9MSQ;
+				CODE_SIGN_ENTITLEMENTS = cloudKitTracker/cloudKitTracker.entitlements;
+				"CODE_SIGN_IDENTITY[sdk=iphoneos*]" = "iPhone Developer";
+				DEVELOPMENT_TEAM = 8HTSCWWX39;
 				INFOPLIST_FILE = cloudKitTracker/Info.plist;
 				IPHONEOS_DEPLOYMENT_TARGET = 10.1;
 				LD_RUNPATH_SEARCH_PATHS = "$(inherited) @executable_path/Frameworks";
-				PRODUCT_BUNDLE_IDENTIFIER = com.Erika.cloudKitTracker;
+				PRODUCT_BUNDLE_IDENTIFIER = com.ErikaAndMattsDevTeam.cloudKitTracker;
 				PRODUCT_NAME = "$(TARGET_NAME)";
 				SWIFT_VERSION = 3.0;
 			};
