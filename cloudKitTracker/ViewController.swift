@@ -10,7 +10,6 @@ import UIKit
 import CoreLocation
 import MapKit
 
-
 class ViewController: UIViewController, CLLocationManagerDelegate {
     
     var locationManager = CLLocationManager()
@@ -40,7 +39,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             print("Location service disabled");
         }
         
-        print("printing works")
+        let cloudRepo = CloudRepo()
+        
+        cloudRepo.getUsers()
         
     }
 
