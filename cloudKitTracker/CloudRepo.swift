@@ -14,12 +14,12 @@ class CloudRepo {
     
     func getUsers(){
         let container = CKContainer.default()
-        let privateDatabase = container.privateCloudDatabase
+        let publicDatabase = container.publicCloudDatabase
         let predicate = NSPredicate(value: true)
         
         let query = CKQuery(recordType: "user", predicate: predicate)
         
-        privateDatabase.perform(query, inZoneWith: nil){ (results, error) -> Void in
+        publicDatabase.perform(query, inZoneWith: nil){ (results, error) -> Void in
             if error != nil {
                 print(error)
             }
