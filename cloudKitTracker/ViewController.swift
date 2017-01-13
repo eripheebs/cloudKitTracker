@@ -9,6 +9,7 @@
 import UIKit
 import CoreLocation
 import MapKit
+import CloudKit
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
     
@@ -17,7 +18,10 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var testLabel: UILabel!
     
     @IBOutlet weak var mapView: MKMapView!
-    
+    var once = true
+    let cloudRepo: CloudRepo = CloudRepo()
+
+    var user = User(username: "blahhhh", long: 10.333, lat: 1232.3, updateTime: Date(), recordID: CKRecordID(recordName: "1234"))
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -39,8 +43,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             print("Location service disabled");
         }
         
-        let cloudRepo = CloudRepo()
-        
         cloudRepo.getUsers()
         
     }
@@ -59,7 +61,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         
         self.mapView.setRegion(region, animated: true)
         
-        print("NOT A FAILURE!!!!!!")
+        if once {
+            cloudRepo.updateUserLocation(user: user)
+
+            once = false
+        }
     }
     
     func locationManagerDidPauseLocationUpdates(_ manager: CLLocationManager) {
