@@ -17,8 +17,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     @IBOutlet weak var usernameField: UITextField!
     @IBOutlet weak var mapView: MKMapView!
-    
-    
+
     let cloudRepo: CloudRepo = CloudRepo()
 
     var user: User!
@@ -43,6 +42,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
+        var updateLocationTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.updateUserData), userInfo: nil, repeats: true)
+
         
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
@@ -56,12 +57,18 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             print("Location service disabled");
         }
         
-        
         initUser()
         username = DEFAULT_USERNAME
         
-        cloudRepo.getUsers()
+    }
+    
+    func addUsersToMap(){
         
+        let pins = cloudRepo.users.map(){(User) -> MKPlacemark in
+            MKPlacemark.init(coordinate: user.coordinates)
+        }
+        
+        self.mapView.addAnnotations(pins)
     }
     
     func initUser(){
@@ -85,12 +92,12 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         user.updateTime = Date()
         
         centerMapOn(user)
-
-        updateUserData()
     }
+    
     
     func updateUserData(){
         cloudRepo.updateUserLocation(user: user)
+        cloudRepo.loadUsers(callback: self.addUsersToMap)
     }
     
     func centerMapOn(_ user: User){

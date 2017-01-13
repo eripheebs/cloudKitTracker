@@ -12,26 +12,37 @@ import CoreLocation
 
 class CloudRepo {
     
-    var users = [Any]()
+    var users = [User]()
     
     let database: CKDatabase
     let container = CKContainer(identifier: "iCloud.CloudKitErikaMatt")
+  
     
     init() {
         database = container.publicCloudDatabase
     }
  
-    func getUsers(){
+    func loadUsers(callback: @escaping () -> ()){
         let query = CKQuery(recordType: "user", predicate: NSPredicate(value: true))
         
         database.perform(query, inZoneWith: nil){ (results, error) -> Void in
+            print("method")
             if error != nil {
                 print(error as! String)
             } else {
-                self.users = results!
+                self.users = results!.map(self.mapResultToUser)
+                callback()
             }
-            
         }
+    }
+    
+    func mapResultToUser(result: CKRecord) -> User {
+        let username = result["username"] as? String ?? ""
+        let long = result["long"] as? NSNumber ?? 0
+        let lat = result["lat"] as? NSNumber ?? 0
+        let updateTime = result["updateTime"] as? Date ?? Date()
+        let recordID = result.recordID
+        return User(username: username, long: long, lat: lat, updateTime: updateTime, recordID: recordID)
     }
     
     func updateUserLocation(user: User) {
@@ -40,7 +51,7 @@ class CloudRepo {
                 if (error as! CKError).code == CKError.unknownItem {
                     print("Item not found - creating user...")
                     let mappedRecord = self.mapToRecord(user: user)
-                    let modifiedRecord = self.addUserDetailsToRecord(user: <#T##User#>, record: mappedRecord)
+                    let modifiedRecord = self.addUserDetailsToRecord(user: user, record: mappedRecord)
                     self.saveUserToDatabase(user: user, record: modifiedRecord, successMessage: "Record created")
                     
                 } else {
@@ -48,7 +59,7 @@ class CloudRepo {
                 }
                 
             } else {
-                let modifiedRecord = self.addUserDetailsToRecord(user: <#T##User#>, record: record!)
+                let modifiedRecord = self.addUserDetailsToRecord(user: user, record: record!)
                 self.saveUserToDatabase(user: user, record: modifiedRecord, successMessage: "Record updated")
             }
         })

@@ -8,11 +8,29 @@
 
 import Foundation
 import CloudKit
+import CoreLocation
 
-struct User {
+class User {
+    
     var username: String
     var long: NSNumber
     var lat: NSNumber
     var updateTime: Date
     var recordID: CKRecordID
+   
+    
+    init(username: String, long: NSNumber, lat: NSNumber, updateTime: Date, recordID: CKRecordID) {
+         self.username = username
+         self.long = long
+         self.lat = lat
+         self.updateTime = updateTime
+         self.recordID = recordID
+        
+    }
+    
+     var coordinates: CLLocationCoordinate2D {
+        get {
+            return CLLocationCoordinate2DMake(CLLocationDegrees(self.lat), CLLocationDegrees(self.long))
+        }
+    }
 }
