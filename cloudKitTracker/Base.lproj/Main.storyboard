@@ -21,28 +21,46 @@
                         <rect key="frame" x="0.0" y="0.0" width="375" height="667"/>
                         <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
                         <subviews>
-                            <label opaque="NO" userInteractionEnabled="NO" contentMode="left" horizontalHuggingPriority="251" verticalHuggingPriority="251" fixedFrame="YES" text="Label" textAlignment="natural" lineBreakMode="tailTruncation" baselineAdjustment="alignBaselines" adjustsFontSizeToFit="NO" translatesAutoresizingMaskIntoConstraints="NO" id="g8O-N5-c1K">
-                                <rect key="frame" x="14" y="185" width="301" height="21"/>
+                            <stackView opaque="NO" contentMode="scaleToFill" axis="vertical" translatesAutoresizingMaskIntoConstraints="NO" id="cKC-5Z-omh">
+                                <rect key="frame" x="0.0" y="200" width="375" height="467"/>
+                                <subviews>
+                                    <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="bAu-ya-2ke">
+                                        <rect key="frame" x="0.0" y="0.0" width="375" height="467"/>
+                                    </mapView>
+                                </subviews>
+                            </stackView>
+                            <textField opaque="NO" clipsSubviews="YES" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="left" contentVerticalAlignment="center" borderStyle="roundedRect" textAlignment="natural" minimumFontSize="17" translatesAutoresizingMaskIntoConstraints="NO" id="MHN-S0-MRE">
+                                <rect key="frame" x="24" y="43" width="198" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                                <fontDescription key="fontDescription" type="system" pointSize="17"/>
                                 <nil key="textColor"/>
-                                <nil key="highlightedColor"/>
-                            </label>
-                            <mapView clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="scaleToFill" fixedFrame="YES" mapType="standard" translatesAutoresizingMaskIntoConstraints="NO" id="bAu-ya-2ke">
-                                <rect key="frame" x="25" y="370" width="306" height="214"/>
+                                <fontDescription key="fontDescription" type="system" pointSize="14"/>
+                                <textInputTraits key="textInputTraits"/>
+                            </textField>
+                            <button opaque="NO" contentMode="scaleToFill" fixedFrame="YES" contentHorizontalAlignment="center" contentVerticalAlignment="center" buttonType="roundedRect" lineBreakMode="middleTruncation" translatesAutoresizingMaskIntoConstraints="NO" id="hbV-bL-saK">
+                                <rect key="frame" x="246" y="43" width="113" height="30"/>
                                 <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
-                            </mapView>
+                                <state key="normal" title="Set Username"/>
+                                <connections>
+                                    <action selector="setUsernameButtonClicked:" destination="BYZ-38-t0r" eventType="touchUpInside" id="fTo-0T-o8o"/>
+                                </connections>
+                            </button>
                         </subviews>
                         <color key="backgroundColor" red="1" green="1" blue="1" alpha="1" colorSpace="custom" customColorSpace="sRGB"/>
+                        <constraints>
+                            <constraint firstItem="cKC-5Z-omh" firstAttribute="bottom" secondItem="wfy-db-euE" secondAttribute="top" id="H4R-UG-YCQ"/>
+                            <constraint firstItem="cKC-5Z-omh" firstAttribute="top" secondItem="8bC-Xf-vdC" secondAttribute="top" constant="200" id="mHW-HY-LTZ"/>
+                            <constraint firstItem="cKC-5Z-omh" firstAttribute="leading" secondItem="8bC-Xf-vdC" secondAttribute="leading" id="qSn-Nq-D5H"/>
+                            <constraint firstAttribute="trailing" secondItem="cKC-5Z-omh" secondAttribute="trailing" id="wZJ-Rg-5Wc"/>
+                        </constraints>
                     </view>
                     <connections>
                         <outlet property="mapView" destination="bAu-ya-2ke" id="h65-gx-NtM"/>
-                        <outlet property="testLabel" destination="g8O-N5-c1K" id="M0W-mX-VKp"/>
+                        <outlet property="usernameField" destination="MHN-S0-MRE" id="tE1-Ye-xtB"/>
                     </connections>
                 </viewController>
                 <placeholder placeholderIdentifier="IBFirstResponder" id="dkx-z0-nzr" sceneMemberID="firstResponder"/>
             </objects>
-            <point key="canvasLocation" x="32.799999999999997" y="38.23088455772114"/>
+            <point key="canvasLocation" x="32.799999999999997" y="49.925037481259373"/>
         </scene>
     </scenes>
 </document>
