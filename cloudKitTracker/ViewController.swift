@@ -52,8 +52,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             locationManager.requestAlwaysAuthorization()
             locationManager.startMonitoringSignificantLocationChanges()
             locationManager.startUpdatingLocation()
-        }
-        else{
+        } else {
             print("Location service disabled");
         }
         

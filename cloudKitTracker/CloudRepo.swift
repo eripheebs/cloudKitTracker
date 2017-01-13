@@ -12,58 +12,63 @@ import CoreLocation
 
 class CloudRepo {
     
-    var data = [Any]()
+    var users = [Any]()
     
-    let publicDatabase: CKDatabase
+    let database: CKDatabase
     let container = CKContainer(identifier: "iCloud.CloudKitErikaMatt")
-    let predicate = NSPredicate(value: true)
     
     init() {
-        publicDatabase = container.publicCloudDatabase
+        database = container.publicCloudDatabase
     }
-    
+ 
     func getUsers(){
-        let query = CKQuery(recordType: "user", predicate: predicate)
+        let query = CKQuery(recordType: "user", predicate: NSPredicate(value: true))
         
-        publicDatabase.perform(query, inZoneWith: nil){ (results, error) -> Void in
+        database.perform(query, inZoneWith: nil){ (results, error) -> Void in
             if error != nil {
                 print(error as! String)
             } else {
-                self.data = results!
+                self.users = results!
             }
             
         }
     }
     
     func updateUserLocation(user: User) {
-        publicDatabase.fetch(withRecordID: user.recordID, completionHandler: { (record, error) in
+        database.fetch(withRecordID: user.recordID, completionHandler: { (record, error) in
             if error != nil {
                 if (error as! CKError).code == CKError.unknownItem {
                     print("Item not found - creating user...")
-                    self.createUser(user: user)
+                    let mappedRecord = self.mapToRecord(user: user)
+                    let modifiedRecord = self.addUserDetailsToRecord(user: <#T##User#>, record: mappedRecord)
+                    self.saveUserToDatabase(user: user, record: modifiedRecord, successMessage: "Record created")
+                    
                 } else {
                     print("Error occured: \(error)")
                 }
                 
             } else {
-                self.makeAUser(user: user, record: record!, successMessage: "Record updated")
+                let modifiedRecord = self.addUserDetailsToRecord(user: <#T##User#>, record: record!)
+                self.saveUserToDatabase(user: user, record: modifiedRecord, successMessage: "Record updated")
             }
         })
     }
     
-    func createUser(user: User){
-        let record = CKRecord(recordType: "user", recordID: user.recordID)
-        
-        self.makeAUser(user: user, record: record, successMessage: "Record created")
+    func mapToRecord(user: User) -> CKRecord{
+        return CKRecord(recordType: "user", recordID: user.recordID)
     }
     
-    func makeAUser(user: User, record: CKRecord, successMessage: String){
+    func addUserDetailsToRecord(user: User, record: CKRecord) -> CKRecord {
         record.setObject(user.username as CKRecordValue?, forKey: "username")
         record.setObject(user.updateTime as CKRecordValue?, forKey: "updateTime")
         record.setObject(user.lat as CKRecordValue?, forKey: "lat")
         record.setObject(user.long as CKRecordValue?, forKey: "long")
         
-        self.publicDatabase.save(record, completionHandler:{(saveRecord, saveError) in
+        return record
+    }
+    
+    func saveUserToDatabase(user: User, record: CKRecord, successMessage: String){
+        self.database.save(record, completionHandler:{(saveRecord, saveError) in
             if saveError != nil {
                 print("Error occured: \(saveError)")
             } else {
