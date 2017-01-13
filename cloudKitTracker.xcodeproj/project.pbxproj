@@ -17,6 +17,7 @@
 		DB37F9041E2798A400BE6292 /* cloudKitTrackerUITests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB37F9031E2798A400BE6292 /* cloudKitTrackerUITests.swift */; };
 		DB840A1E1E27D2B7009D5513 /* CloudKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = DB840A1D1E27D2B7009D5513 /* CloudKit.framework */; };
 		DB840A201E27D813009D5513 /* CloudRepo.swift in Sources */ = {isa = PBXBuildFile; fileRef = DB840A1F1E27D813009D5513 /* CloudRepo.swift */; };
+		DBB2DE8E1E28DA26000B8F8D /* CloudRepoTests.swift in Sources */ = {isa = PBXBuildFile; fileRef = DBB2DE8D1E28DA25000B8F8D /* CloudRepoTests.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -54,6 +55,7 @@
 		DB37F9111E27C57900BE6292 /* cloudKitTracker.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = cloudKitTracker.entitlements; sourceTree = "<group>"; };
 		DB840A1D1E27D2B7009D5513 /* CloudKit.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CloudKit.framework; path = System/Library/Frameworks/CloudKit.framework; sourceTree = SDKROOT; };
 		DB840A1F1E27D813009D5513 /* CloudRepo.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudRepo.swift; sourceTree = "<group>"; };
+		DBB2DE8D1E28DA25000B8F8D /* CloudRepoTests.swift */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.swift; path = CloudRepoTests.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -124,6 +126,7 @@
 			children = (
 				3DB28FF71E279A4600B21766 /* locationTests.swift */,
 				DB37F8FA1E2798A400BE6292 /* Info.plist */,
+				DBB2DE8D1E28DA25000B8F8D /* CloudRepoTests.swift */,
 			);
 			path = cloudKitTrackerTests;
 			sourceTree = "<group>";
@@ -301,6 +304,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				3DB28FF81E279A4600B21766 /* locationTests.swift in Sources */,
+				DBB2DE8E1E28DA26000B8F8D /* CloudRepoTests.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

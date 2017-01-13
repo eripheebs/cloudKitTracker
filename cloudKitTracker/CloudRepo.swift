@@ -12,8 +12,10 @@ import CoreLocation
 
 class CloudRepo {
     
+    var data: Array<Any> = []
+    
     func getUsers(){
-        let container = CKContainer.default()
+        let container = CKContainer(identifier: "iCloud.CloudKitErikaMatt")
         let publicDatabase = container.publicCloudDatabase
         let predicate = NSPredicate(value: true)
         
@@ -24,7 +26,7 @@ class CloudRepo {
                 print(error)
             }
             else {
-                
+                self.data = results!
                 for result in results! {
                     print(result)
                 }
