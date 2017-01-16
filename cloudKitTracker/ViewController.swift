@@ -40,15 +40,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             print("Updated username from \(oldValue) to \(username)")
             user.username = username
             
-            DispatchQueue.global().async {
-            
-                // Bounce back to the main thread to update the UI
-                DispatchQueue.main.async { [unowned self] in
-                    self.usernameField.text = self.username
-                    
-                }
+            dispatchOnMainThread {
+                self.usernameField.text = self.username
             }
-            
         }
     }
     
@@ -75,6 +69,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         }
     }
     
+    
+    
     func usersLoaded(error: CKError?){
         
         if error != nil {
@@ -85,15 +81,9 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             initUser()
         }
         
-        DispatchQueue.global().async {
-            
+        dispatchOnMainThread {
             let users = self.cloudRepo.users
-
-            // Bounce back to the main thread to update the UI
-            DispatchQueue.main.async {
-                self.addUsersToMap(users)
-
-            }
+            self.addUsersToMap(users)
         }
         
         if CLLocationManager.locationServicesEnabled() {
@@ -168,6 +158,13 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     override func didReceiveMemoryWarning() {
         super.didReceiveMemoryWarning()
         // Dispose of any resources that can be recreated.
+    }
+    
+    func dispatchOnMainThread(closure: @escaping () -> ()) {
+        DispatchQueue.global().async {
+            // Bounce back to the main thread to update the UI
+            DispatchQueue.main.async(execute: closure)
+        }
     }
 
 }
