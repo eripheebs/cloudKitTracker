@@ -33,4 +33,13 @@ class User {
             return CLLocationCoordinate2DMake(CLLocationDegrees(self.lat), CLLocationDegrees(self.long))
         }
     }
+    
+    var timeString : String {
+        get {
+            let formatter = DateFormatter()
+            formatter.dateFormat = "hh:mm:ss yy-MM-dd"
+            
+            return formatter.string(from: updateTime)
+        }
+    }
 }
