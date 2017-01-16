@@ -110,7 +110,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             pin.subtitle = user.timeString
             return pin
         }
-        
+        self.mapView.removeAnnotations(self.mapView.annotations)
         self.mapView.addAnnotations(pins)
     }
     
