@@ -12,7 +12,7 @@ import MapKit
 import CloudKit
 import Dispatch
 
-class ViewController: UIViewController, CLLocationManagerDelegate {
+class ViewController: UIViewController, CLLocationManagerDelegate, MKMapViewDelegate {
     
     var locationManager = CLLocationManager()
     
@@ -20,6 +20,8 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     @IBOutlet weak var mapView: MKMapView!
 
     let cloudRepo: CloudRepo = CloudRepo()
+    
+    let uuid = UIDevice.current.identifierForVendor!.uuidString
 
     var user: User! {
         didSet {
@@ -60,7 +62,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     }
     
     func initUser(){
-        let uuid = UIDevice.current.identifierForVendor!.uuidString
     
         if let user = cloudRepo.getUserFrom(uuid: uuid){
             self.user = user
@@ -94,6 +95,7 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             locationManager.requestAlwaysAuthorization()
             locationManager.startMonitoringSignificantLocationChanges()
             locationManager.startUpdatingLocation()
+            mapView.delegate = self
         } else {
             print("Location service disabled");
         }
@@ -103,15 +105,52 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     func addUsersToMap(_ users: [User]){
         
-        let pins = users.map(){(User) -> MKPointAnnotation in
-            let pin = MKPointAnnotation.init()
-            pin.coordinate = user.coordinates
-            pin.title = user.username.capitalized
-            pin.subtitle = user.timeString
+        let pinsExceptUs = users.filter(userIsNotSelf)
+        
+        let pins = pinsExceptUs.map(){ (pinUser: User) -> MKPointAnnotation in
+            let pin = MKPointAnnotation()
+            pin.title = pinUser.username
+            pin.subtitle = pinUser.timeString
+            pin.coordinate = pinUser.coordinate
             return pin
         }
         self.mapView.removeAnnotations(self.mapView.annotations)
+        self.addMePin(users)
         self.mapView.addAnnotations(pins)
+    }
+
+    
+    func addMePin(_ users: [User]){
+        let me = users.filter(userIsSelf)[0]
+        let mePin = MePin(user: me)
+        self.mapView.addAnnotation(mePin as MKAnnotation)
+    }
+    
+    func mapView(_ mapView: MKMapView, viewFor annotation: MKAnnotation) -> MKAnnotationView? {
+        if annotation is MKUserLocation {
+            return nil
+        }
+        
+        let reuseId = "pin"
+        var pinView = mapView.dequeueReusableAnnotationView(withIdentifier: reuseId) as? MKPinAnnotationView
+        
+        if annotation is MePin {
+            pinView = MKPinAnnotationView(annotation: annotation, reuseIdentifier: reuseId)
+            pinView = (annotation as! MePin).getPinView(pinView: pinView!)
+        } else {
+            
+            return nil
+        }
+    
+        return pinView
+    }
+    
+    func userIsNotSelf(user: User) -> Bool {
+        return !userIsSelf(user: user)
+    }
+    
+    func userIsSelf(user: User) -> Bool{
+        return user.recordID.recordName == uuid
     }
     
     func loadUserData(){

@@ -9,8 +9,9 @@
 import Foundation
 import CloudKit
 import CoreLocation
+import MapKit
 
-class User {
+class User: NSObject {
     
     var username: String
     var long: NSNumber
@@ -20,15 +21,16 @@ class User {
    
     
     init(username: String, long: NSNumber, lat: NSNumber, updateTime: Date, recordID: CKRecordID) {
-         self.username = username
-         self.long = long
-         self.lat = lat
-         self.updateTime = updateTime
-         self.recordID = recordID
-        
+
+        self.username = username
+        self.long = long
+        self.lat = lat
+        self.updateTime = updateTime
+        self.recordID = recordID
+    
     }
     
-     var coordinates: CLLocationCoordinate2D {
+     var coordinate: CLLocationCoordinate2D {
         get {
             return CLLocationCoordinate2DMake(CLLocationDegrees(self.lat), CLLocationDegrees(self.long))
         }
