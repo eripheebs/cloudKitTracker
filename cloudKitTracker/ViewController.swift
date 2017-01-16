@@ -97,19 +97,20 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         } else {
             print("Location service disabled");
         }
-        
-       
-        
-        
+    
         loaded = true
     }
     
     func addUsersToMap(_ users: [User]){
         
-        let pins = users.map(){(User) -> MKPlacemark in
-            MKPlacemark.init(coordinate: user.coordinates)
+        let pins = users.map(){(User) -> MKPointAnnotation in
+            let pin = MKPointAnnotation.init()
+            pin.coordinate = user.coordinates
+            pin.title = user.username.capitalized
+            pin.subtitle = user.timeString
+            return pin
         }
-
+        
         self.mapView.addAnnotations(pins)
     }
     
