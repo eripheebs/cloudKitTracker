@@ -10,6 +10,7 @@ import UIKit
 import CoreLocation
 import MapKit
 import CloudKit
+import Dispatch
 
 class ViewController: UIViewController, CLLocationManagerDelegate {
     
@@ -20,18 +21,34 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
 
     let cloudRepo: CloudRepo = CloudRepo()
 
-    var user: User!
+    var user: User! {
+        didSet {
+            username = user.username
+        }
+    }
+    
     var once = true
     
     let LONDON_LONG = 51.5074
     let LONDON_LAT = 0.1278
     let DEFAULT_USERNAME = "Anonymous"
     
+    var loaded = false
+    
     var username: String = "" {
         didSet {
             print("Updated username from \(oldValue) to \(username)")
             user.username = username
-            updateUserData()
+            
+            DispatchQueue.global().async {
+            
+                // Bounce back to the main thread to update the UI
+                DispatchQueue.main.async { [unowned self] in
+                    self.usernameField.text = self.username
+                    
+                }
+            }
+            
         }
     }
     
@@ -42,8 +59,42 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     override func viewDidLoad() {
         super.viewDidLoad()
         
-        var updateLocationTimer = Timer.scheduledTimer(timeInterval: 5, target: self, selector: #selector(self.updateUserData), userInfo: nil, repeats: true)
+        // 1
+        cloudRepo.loadUsers(callback: self.usersLoaded)
+        let sendUserUpdateTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(self.sendUserUpdate), userInfo: nil, repeats: true)
+        let loadUserDataTimer = Timer.scheduledTimer(timeInterval: 3, target: self, selector: #selector(self.loadUserData), userInfo: nil, repeats: true)
+    }
+    
+    func initUser(){
+        let uuid = UIDevice.current.identifierForVendor!.uuidString
+    
+        if let user = cloudRepo.getUserFrom(uuid: uuid){
+            self.user = user
+        } else {
+            self.user = User(username: DEFAULT_USERNAME, long: NSNumber(value: LONDON_LONG), lat: NSNumber(value: LONDON_LAT), updateTime: Date(), recordID: CKRecordID(recordName: uuid))
+        }
+    }
+    
+    func usersLoaded(error: CKError?){
+        
+        if error != nil {
+            print(error)
+        }
+        
+        if !loaded {
+            initUser()
+        }
+        
+        DispatchQueue.global().async {
+            
+            let users = self.cloudRepo.users
 
+            // Bounce back to the main thread to update the UI
+            DispatchQueue.main.async {
+                self.addUsersToMap(users)
+
+            }
+        }
         
         if CLLocationManager.locationServicesEnabled() {
             locationManager.delegate = self
@@ -57,33 +108,33 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
             print("Location service disabled");
         }
         
-        initUser()
-        username = DEFAULT_USERNAME
+       
         
+        
+        loaded = true
     }
     
-    func addUsersToMap(){
+    func addUsersToMap(_ users: [User]){
         
-        let pins = cloudRepo.users.map(){(User) -> MKPlacemark in
+        let pins = users.map(){(User) -> MKPlacemark in
             MKPlacemark.init(coordinate: user.coordinates)
         }
-        
+
         self.mapView.addAnnotations(pins)
     }
     
-    func initUser(){
-        let uuid = UIDevice.current.identifierForVendor!.uuidString
-        
-        user = User(username: DEFAULT_USERNAME, long: NSNumber(value: LONDON_LONG), lat: NSNumber(value: LONDON_LAT), updateTime: Date(), recordID: CKRecordID(recordName: uuid))
-
-    }
-
-
-    override func didReceiveMemoryWarning() {
-        super.didReceiveMemoryWarning()
-        // Dispose of any resources that can be recreated.
+    func loadUserData(){
+        if loaded {
+            cloudRepo.loadUsers(callback: self.usersLoaded)
+        }
     }
     
+    func sendUserUpdate(){
+        if loaded {
+            cloudRepo.updateUserLocation(user: user)
+        }
+    }
+
     func locationManager(_ manager: CLLocationManager, didUpdateLocations locations: [CLLocation]) {
         let location = locations.last!
         
@@ -92,12 +143,6 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
         user.updateTime = Date()
         
         centerMapOn(user)
-    }
-    
-    
-    func updateUserData(){
-        cloudRepo.updateUserLocation(user: user)
-        cloudRepo.loadUsers(callback: self.addUsersToMap)
     }
     
     func centerMapOn(_ user: User){
@@ -118,6 +163,11 @@ class ViewController: UIViewController, CLLocationManagerDelegate {
     
     func locationManager(_ manager: CLLocationManager, didFailWithError error: Error) {
         print("Failure! Error: \(error)")
+    }
+    
+    override func didReceiveMemoryWarning() {
+        super.didReceiveMemoryWarning()
+        // Dispose of any resources that can be recreated.
     }
 
 }
