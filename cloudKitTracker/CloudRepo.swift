@@ -22,7 +22,7 @@ class CloudRepo {
         database = container.publicCloudDatabase
     }
  
-    func loadUsers(callback: @escaping () -> ()){
+    func loadUsers(callback: @escaping (_ error: CKError?) -> ()){
         let query = CKQuery(recordType: "user", predicate: NSPredicate(value: true))
         
         database.perform(query, inZoneWith: nil){ (results, error) -> Void in
@@ -31,9 +31,16 @@ class CloudRepo {
                 print(error as! String)
             } else {
                 self.users = results!.map(self.mapResultToUser)
-                callback()
             }
+            
+            callback(error as? CKError)
         }
+    }
+    
+    func getUserFrom(uuid: String) -> User?{
+        return users.filter(){
+            $0.recordID.recordName == uuid
+        }.first
     }
     
     func mapResultToUser(result: CKRecord) -> User {
