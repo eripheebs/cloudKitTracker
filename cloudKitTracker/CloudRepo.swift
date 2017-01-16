@@ -12,73 +12,78 @@ import CoreLocation
 
 class CloudRepo {
     
-    var data = [Any]()
+    var users = [User]()
     
-    let publicDatabase: CKDatabase
+    let database: CKDatabase
     let container = CKContainer(identifier: "iCloud.CloudKitErikaMatt")
-    let predicate = NSPredicate(value: true)
+  
     
     init() {
-        publicDatabase = container.publicCloudDatabase
+        database = container.publicCloudDatabase
     }
-    
-    func getUsers(){
-        let query = CKQuery(recordType: "user", predicate: predicate)
+ 
+    func loadUsers(callback: @escaping () -> ()){
+        let query = CKQuery(recordType: "user", predicate: NSPredicate(value: true))
         
-        publicDatabase.perform(query, inZoneWith: nil){ (results, error) -> Void in
+        database.perform(query, inZoneWith: nil){ (results, error) -> Void in
+            print("method")
             if error != nil {
-                print(error)
+                print(error as! String)
+            } else {
+                self.users = results!.map(self.mapResultToUser)
+                callback()
             }
-            else {
-                self.data = results!
-                for result in results! {
-                    
-                }
-            }
-            
         }
     }
     
+    func mapResultToUser(result: CKRecord) -> User {
+        let username = result["username"] as? String ?? ""
+        let long = result["long"] as? NSNumber ?? 0
+        let lat = result["lat"] as? NSNumber ?? 0
+        let updateTime = result["updateTime"] as? Date ?? Date()
+        let recordID = result.recordID
+        return User(username: username, long: long, lat: lat, updateTime: updateTime, recordID: recordID)
+    }
+    
     func updateUserLocation(user: User) {
-        publicDatabase.fetch(withRecordID: user.recordID, completionHandler: { (record, error) in
+        database.fetch(withRecordID: user.recordID, completionHandler: { (record, error) in
             if error != nil {
                 if (error as! CKError).code == CKError.unknownItem {
                     print("Item not found - creating user...")
-                    self.createUser(user: user)
+                    let mappedRecord = self.mapToRecord(user: user)
+                    let modifiedRecord = self.addUserDetailsToRecord(user: user, record: mappedRecord)
+                    self.saveUserToDatabase(user: user, record: modifiedRecord, successMessage: "Record created")
+                    
                 } else {
                     print("Error occured: \(error)")
                 }
                 
             } else {
-                record!.setObject(user.username as CKRecordValue?, forKey: "username")
-                record!.setObject(user.updateTime as CKRecordValue?, forKey: "updateTime")
-                record!.setObject(user.lat as CKRecordValue?, forKey: "lat")
-                record!.setObject(user.long as CKRecordValue?, forKey: "long")
-                
-                self.publicDatabase.save(record!, completionHandler:{(saveRecord, saveError) in
-                    if saveError != nil {
-                        print("Error occured: \(saveError)")
-                    } else {
-                        print("Record updated")
-                    }
-                })
+                let modifiedRecord = self.addUserDetailsToRecord(user: user, record: record!)
+                self.saveUserToDatabase(user: user, record: modifiedRecord, successMessage: "Record updated")
             }
         })
     }
     
-    func createUser(user: User){
-        let record = CKRecord(recordType: "user", recordID: user.recordID)
-        
+    func mapToRecord(user: User) -> CKRecord{
+        return CKRecord(recordType: "user", recordID: user.recordID)
+    }
+    
+    func addUserDetailsToRecord(user: User, record: CKRecord) -> CKRecord {
         record.setObject(user.username as CKRecordValue?, forKey: "username")
         record.setObject(user.updateTime as CKRecordValue?, forKey: "updateTime")
         record.setObject(user.lat as CKRecordValue?, forKey: "lat")
         record.setObject(user.long as CKRecordValue?, forKey: "long")
         
-        self.publicDatabase.save(record, completionHandler:{(saveRecord, saveError) in
+        return record
+    }
+    
+    func saveUserToDatabase(user: User, record: CKRecord, successMessage: String){
+        self.database.save(record, completionHandler:{(saveRecord, saveError) in
             if saveError != nil {
                 print("Error occured: \(saveError)")
             } else {
-                print("Record created")
+                print(successMessage)
             }
         })
     }
